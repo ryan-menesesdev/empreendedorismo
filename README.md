@@ -36,32 +36,24 @@ O fluxo do sistema atende diretamente ao caminho do gestor escolar:
 
 ```
 
-2. Acesse o diretório do backend:
-```bash
-cd backend
-
-```
-
-
-3. Instale as dependências do projeto:
+2. Na raiz do projeto, instale as dependências:
 ```bash
 npm install
 
 ```
 
 
-4. Configure o banco de dados:
+3. Configure o banco de dados:
 * Certifique-se de ter o PostgreSQL rodando localmente.
 * Execute o script localizado em `database/schema.sql` para criar as tabelas necessárias.
 * Configure as variáveis de ambiente com as credenciais do seu banco de dados.
 
 
-5. Inicie o servidor em ambiente de desenvolvimento:
+4. Inicie o servidor em ambiente de desenvolvimento, a partir da raiz:
 ```bash
-npx ts-node src/server.ts
+npm run dev
 
 ```
-
 
 
 Acesse `http://localhost:3000/login` no navegador para visualizar e testar o fluxo de telas provisórias do backend.
