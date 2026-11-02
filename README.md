@@ -1,4 +1,3 @@
-```markdown
 # Sistema de Alerta e Prevenção de Evasão Escolar
 
 Plataforma desenvolvida para auxiliar coordenadores e gestores escolares no monitoramento e prevenção da evasão de alunos. O sistema gera alertas automatizados com base em métricas como número de faltas, desempenho acadêmico (notas) e dificuldades apontadas pelos estudantes.
@@ -31,15 +30,14 @@ O fluxo do sistema atende diretamente ao caminho do gestor escolar:
 ## Como Executar Localmente
 
 1. Clone o repositório:
-   ```bash
-   git clone <url-do-repositorio>
+ ```bash
+ git clone <url-do-repositorio>
 
 ```
 
 2. Na raiz do projeto, instale as dependências:
 ```bash
 npm install
-
 ```
 
 
