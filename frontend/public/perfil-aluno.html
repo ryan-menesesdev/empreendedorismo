@@ -11,18 +11,36 @@
   .menu a.active { background: #f3f4f6; color: #4f46e5; font-weight: bold; }
   main { flex: 1; padding: 30px; overflow-y: auto; }
   .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  .card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+  .card { background: white; padding: 25px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+  .card h3 { margin: 0 0 5px; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+  .card p.sub { font-size: 13px; color: #666; margin: 0 0 20px 0; }
   .btn { padding: 8px 16px; border-radius: 8px; text-decoration: none; border: 1px solid #ddd; color: #333; font-size: 14px; }
   .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+
+  /* Gráfico de barras verticais (Faltas) */
+  .bar-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 130px; margin-top: 30px; border-bottom: 1px solid #f3f4f6; padding-bottom: 10px; }
+  .bar-col { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; }
+  .bar-val { font-size: 12px; color: #555; margin-bottom: 5px; font-weight: 500; }
+  .bar { width: 24px; background: #818cf8; border-radius: 4px 4px 0 0; }
+  .bar-label { position: absolute; bottom: -25px; font-size: 12px; color: #9ca3af; }
+  
+  /* Gráfico de barras horizontais (Notas) */
+  .nota-row { display: flex; align-items: center; margin-bottom: 15px; }
+  .nota-nome { width: 120px; font-size: 14px; color: #555; font-weight: 500; }
+  .nota-bg { flex: 1; height: 6px; background: #f3f4f6; border-radius: 3px; margin: 0 20px; }
+  .nota-fill { height: 100%; border-radius: 3px; }
+  .nota-val { width: 30px; font-size: 14px; font-weight: bold; text-align: right; }
+  .nota-azul { background: #818cf8; }
+  .nota-vermelha { background: #f87171; }
 </style>
 </head>
 <body>
   <aside>
     <div class="logo">🎓 Permanência</div>
     <div class="menu">
-      <a href="dashboard.html" class="active">Dashboard</a>
-      <a href="alunos.html">Alunos</a>
-      <a href="alertas.html">Alertas <span style="float:right; background:#fee2e2; color:#dc2626; padding:2px 6px; border-radius:10px; font-size:10px;">5</span></a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="alunos.html" class="active">Alunos</a>
+      <a href="alertas.html">Alertas</a>
       <a href="adicionar-aluno.html">Cadastro</a>
       <a href="landing-page.html">Landing Page</a>
     </div>
@@ -31,34 +49,82 @@
     <a href="alunos.html" style="color: #666; text-decoration: none; font-size: 14px;">← Voltar para alunos</a>
     <div class="header" style="margin-top: 20px;">
       <div>
-        <h1 style="margin: 0;">Maria Souza <span style="font-size:12px; background:#fef3c7; color:#d97706; padding:4px 8px; border-radius:4px; vertical-align: middle;">Suspeita de evasão</span></h1>
-        <p style="color: #666; font-size: 14px; margin-top: 5px;">8º ano A • Matrícula 2025-0842</p>
+        <h1 style="margin: 0;">Maria Souza <span style="font-size:12px; background:#fef3c7; color:#d97706; padding:4px 8px; border-radius:4px; vertical-align: middle; font-weight:normal;">Suspeita de evasão</span></h1>
+        <p style="color: #666; font-size: 14px; margin-top: 5px;">8º ano A • Matrícula 2025-0842 • 13 anos</p>
       </div>
       <div>
-        <a href="editar-aluno.html" class="btn">Editar aluno</a>
+        <a href="editar-aluno.html" class="btn">✏️ Editar aluno</a>
       </div>
     </div>
     <div class="grid">
       <div>
+        <!-- Card Gráfico de Faltas -->
         <div class="card">
-          <h3>Faltas ao longo do tempo</h3>
-          <p>Total de 29 faltas no ano letivo</p>
-          <div style="height:100px; background:#f3f4f6; text-align:center; padding-top:40px;">[Gráfico de Barras]</div>
+          <h3>Faltas ao longo do tempo <span style="font-size:12px; background:#fff7ed; color:#ea580c; padding:4px 8px; border-radius:12px; font-weight:normal;">↗ +5 este mês</span></h3>
+          <p class="sub">Total de 29 faltas no ano letivo</p>
+          
+          <div class="bar-chart">
+            <div class="bar-col"><span class="bar-val">2</span><div class="bar" style="height: 25px; opacity: 0.6;"></div><span class="bar-label">Fev</span></div>
+            <div class="bar-col"><span class="bar-val">1</span><div class="bar" style="height: 12px; opacity: 0.6;"></div><span class="bar-label">Mar</span></div>
+            <div class="bar-col"><span class="bar-val">3</span><div class="bar" style="height: 37px; opacity: 0.6;"></div><span class="bar-label">Abr</span></div>
+            <div class="bar-col"><span class="bar-val">2</span><div class="bar" style="height: 25px; opacity: 0.6;"></div><span class="bar-label">Mai</span></div>
+            <div class="bar-col"><span class="bar-val">4</span><div class="bar" style="height: 50px; opacity: 0.6;"></div><span class="bar-label">Jun</span></div>
+            <div class="bar-col"><span class="bar-val">3</span><div class="bar" style="height: 37px; opacity: 0.6;"></div><span class="bar-label">Jul</span></div>
+            <div class="bar-col"><span class="bar-val">6</span><div class="bar" style="height: 75px;"></div><span class="bar-label">Ago</span></div>
+            <div class="bar-col"><span class="bar-val">8</span><div class="bar" style="height: 100px;"></div><span class="bar-label">Set</span></div>
+          </div>
         </div>
+        
+        <!-- Card Gráfico de Notas -->
         <div class="card">
-          <h3>Notas por disciplina <a href="editar-aluno.html" style="font-size:12px; color:#4f46e5;">Editar</a></h3>
-          <p>Matemática: 4,8 | Português: 7,2 | Ciências: 6,5</p>
+          <h3>Notas por disciplina <a href="editar-aluno.html" style="font-size:12px; color:#4f46e5; font-weight:normal; text-decoration:none;">✏️ Editar</a></h3>
+          <p class="sub">Média geral atual: 6,2</p>
+          
+          <div style="margin-top: 30px;">
+            <div class="nota-row">
+              <div class="nota-nome">Português</div>
+              <div class="nota-bg"><div class="nota-fill nota-azul" style="width: 72%;"></div></div>
+              <div class="nota-val">7,2</div>
+            </div>
+            <div class="nota-row">
+              <div class="nota-nome">Matemática</div>
+              <div class="nota-bg"><div class="nota-fill nota-vermelha" style="width: 48%;"></div></div>
+              <div class="nota-val" style="color: #ef4444;">4,8</div>
+            </div>
+            <div class="nota-row">
+              <div class="nota-nome">Ciências</div>
+              <div class="nota-bg"><div class="nota-fill nota-azul" style="width: 65%;"></div></div>
+              <div class="nota-val">6,5</div>
+            </div>
+            <div class="nota-row">
+              <div class="nota-nome">História</div>
+              <div class="nota-bg"><div class="nota-fill nota-azul" style="width: 68%;"></div></div>
+              <div class="nota-val">6,8</div>
+            </div>
+            <div class="nota-row">
+              <div class="nota-nome">Geografia</div>
+              <div class="nota-bg"><div class="nota-fill nota-vermelha" style="width: 59%;"></div></div>
+              <div class="nota-val" style="color: #ef4444;">5,9</div>
+            </div>
+          </div>
         </div>
       </div>
+      
       <div>
-        <div class="card" style="background:#4f46e5; color:white;">
-          <strong>Resumir com IA</strong><br><span style="font-size:12px;">Gere uma análise do histórico →</span>
+        <div class="card" style="background:#4f46e5; color:white; display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+          <div>
+            <strong style="display:block; margin-bottom:5px;">✨ Resumir com IA</strong>
+            <span style="font-size:13px; color:#e0e7ff;">Gere uma análise do histórico</span>
+          </div>
+          <span style="font-size:18px;">→</span>
         </div>
         <div class="card">
-          <h3>Histórico de alertas</h3>
-          <ul style="padding-left: 20px; font-size:14px; color:#555;">
-            <li>Passou para Suspeita (12 set)</li>
-            <li>Queda no desempenho (02 set)</li>
+          <h3 style="margin-bottom: 5px;">Histórico de alertas</h3>
+          <p class="sub">Últimas movimentações</p>
+          <ul style="padding-left: 20px; font-size:14px; color:#555; line-height: 1.6; margin-top:20px;">
+            <li style="margin-bottom: 15px;"><strong style="color:#d97706;">Passou para Suspeita</strong><br><span style="font-size:12px; color:#888;">12 set. 2025<br>3 faltas na semana e queda em Matemática.</span></li>
+            <li style="margin-bottom: 15px;"><strong style="color:#666;">Queda no desempenho</strong><br><span style="font-size:12px; color:#888;">02 set. 2025<br>Média bimestral caiu de 7,1 para 6,2.</span></li>
+            <li><strong style="color:#10b981;">Situação regular</strong><br><span style="font-size:12px; color:#888;">18 jun. 2025<br>Frequência dentro do esperado.</span></li>
           </ul>
         </div>
       </div>

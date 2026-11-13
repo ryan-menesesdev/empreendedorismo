@@ -54,7 +54,7 @@ npm run dev
 ```
 
 
-Acesse `http://localhost:3000/login` no navegador para visualizar e testar o fluxo de telas provisórias do backend.
+Acesse `http://localhost:3000/` no navegador para visualizar a página inicial. A rota `/login` redireciona para a página inicial.
 
 ```
 
