@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Alunos</title>
+<style>
+  /* Mesmos estilos base do dashboard omitidos para brevidade, mas aplicados */
+  body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; background: #f9fafb; color: #333; }
+  aside { width: 220px; background: white; border-right: 1px solid #eee; padding: 20px 0; display: flex; flex-direction: column; }
+  .logo { padding: 0 20px 20px; font-weight: bold; }
+  .menu a { display: block; padding: 12px 20px; color: #555; text-decoration: none; font-size: 14px; margin: 5px 10px; border-radius: 8px; }
+  .menu a.active { background: #f3f4f6; color: #4f46e5; font-weight: bold; }
+  main { flex: 1; padding: 30px; overflow-y: auto; }
+  .btn-primary { background: #4f46e5; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; }
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+  th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+  th { color: #666; font-weight: 600; text-transform: uppercase; font-size: 12px; }
+  tr:hover { background: #f9fafb; cursor: pointer; }
+  .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+  .regular { background: #dcfce7; color: #166534; }
+  .suspeita { background: #fef3c7; color: #d97706; }
+  .risco { background: #fee2e2; color: #dc2626; }
+</style>
+</head>
+<body>
+  <aside>
+    <div class="logo">🎓 Permanência</div>
+    <div class="menu">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="alunos.html" class="active">Alunos</a>
+      <a href="alertas.html">Alertas</a>
+      <a href="adicionar-aluno.html">Cadastro</a>
+      <a href="landing-page.html">Landing Page</a>
+    </div>
+  </aside>
+  <main>
+    <header style="display:flex; justify-content:space-between; margin-bottom: 20px;">
+      <h1>Alunos</h1>
+      <a href="adicionar-aluno.html" class="btn-primary">+ Adicionar aluno</a>
+    </header>
+    <table>
+      <thead>
+        <tr><th>Aluno</th><th>Turma</th><th>Faltas</th><th>Média</th><th>Nível de Alerta</th><th>Ações</th></tr>
+      </thead>
+      <tbody>
+        <tr onclick="window.location='perfil-aluno.html'">
+          <td><strong>Maria Souza</strong></td><td>8º A</td><td>8</td><td>6,2</td>
+          <td><span class="badge suspeita">Suspeita de evasão</span></td><td><a href="editar-aluno.html">✏️</a></td>
+        </tr>
+        <tr onclick="window.location='perfil-aluno.html'">
+          <td><strong>João Pedro Santos</strong></td><td>9º B</td><td style="color:red">12</td><td>5,4</td>
+          <td><span class="badge risco">Risco de evasão</span></td><td><a href="editar-aluno.html">✏️</a></td>
+        </tr>
+        <tr onclick="window.location='perfil-aluno.html'">
+          <td><strong>Ana Clara Lima</strong></td><td>7º A</td><td>2</td><td>8,7</td>
+          <td><span class="badge regular">Regular</span></td><td><a href="editar-aluno.html">✏️</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Central de Alertas</title>
+<style>
+  body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; background: #f9fafb; color: #333; }
+  aside { width: 220px; background: white; border-right: 1px solid #eee; padding: 20px 0; }
+  .logo { padding: 0 20px 20px; font-weight: bold; }
+  .menu a { display: block; padding: 12px 20px; color: #555; text-decoration: none; font-size: 14px; margin: 5px 10px; border-radius: 8px; }
+  .menu a.active { background: #f3f4f6; color: #4f46e5; font-weight: bold; }
+  main { flex: 1; padding: 30px; overflow-x: auto; }
+  .kanban { display: flex; gap: 20px; height: 100%; min-width: 900px; }
+  .column { flex: 1; background: #f3f4f6; padding: 15px; border-radius: 12px; display: flex; flex-direction: column; gap: 15px; }
+  .column h2 { font-size: 16px; margin: 0 0 10px; display: flex; justify-content: space-between; align-items: center; }
+  .card-alerta { background: white; padding: 15px; border-radius: 8px; border: 1px solid #e5e7eb; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .card-alerta h4 { margin: 0 0 5px; font-size: 14px; }
+  .card-alerta p { margin: 0 0 10px; font-size: 12px; color: #666; }
+  .stats-row { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; margin-bottom: 15px; text-align: center; }
+  .link-detalhes { font-size: 12px; color: #4f46e5; text-decoration: none; font-weight: bold; display: block; text-align: right; }
+</style>
+</head>
+<body>
+  <aside>
+    <div class="logo">🎓 Permanência</div>
+    <div class="menu">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="alunos.html">Alunos</a>
+      <a href="alertas.html" class="active">Alertas <span style="float:right; background:#fee2e2; color:#dc2626; padding:2px 6px; border-radius:10px; font-size:10px;">5</span></a>
+      <a href="adicionar-aluno.html">Cadastro</a>
+      <a href="landing-page.html">Landing Page</a>
+    </div>
+  </aside>
+  <main>
+    <h1 style="margin: 0 0 20px;">Central de alertas</h1>
+    <div class="kanban">
+      <div class="column">
+        <h2><span style="color:#166534">● Regular</span> <span style="font-weight:normal; color:#666;">351</span></h2>
+        <div class="card-alerta">
+          <h4>Ana Clara Lima</h4>
+          <p>Frequência e desempenho estáveis</p>
+          <div class="stats-row"><span>Faltas<br>2</span><span>Média<br>8,7</span></div>
+          <a href="detalhe-alerta.html" class="link-detalhes">Ver detalhes →</a>
+        </div>
+      </div>
+      <div class="column">
+        <h2><span style="color:#d97706">● Suspeita de evasão</span> <span style="font-weight:normal; color:#666;">49</span></h2>
+        <div class="card-alerta">
+          <h4>Maria Souza</h4>
+          <p>3 faltas na semana + queda em Matemática</p>
+          <div class="stats-row"><span>Faltas<br>8</span><span>Média<br>6,2</span></div>
+          <a href="detalhe-alerta.html" class="link-detalhes">Ver detalhes →</a>
+        </div>
+      </div>
+      <div class="column">
+        <h2><span style="color:#dc2626">● Risco de evasão</span> <span style="font-weight:normal; color:#666;">28</span></h2>
+        <div class="card-alerta">
+          <h4>João Pedro Santos</h4>
+          <p>5 faltas seguidas + queda de 2 pontos</p>
+          <div class="stats-row"><span>Faltas<br>12</span><span>Média<br>5,4</span></div>
+          <a href="detalhe-alerta.html" class="link-detalhes">Ver detalhes →</a>
+        </div>
+      </div>

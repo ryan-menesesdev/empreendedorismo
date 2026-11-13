@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Perfil - Maria Souza</title>
+<style>
+  body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; background: #f9fafb; color: #333; }
+  aside { width: 220px; background: white; border-right: 1px solid #eee; padding: 20px 0; }
+  .logo { padding: 0 20px 20px; font-weight: bold; }
+  .menu a { display: block; padding: 12px 20px; color: #555; text-decoration: none; font-size: 14px; margin: 5px 10px; border-radius: 8px; }
+  .menu a.active { background: #f3f4f6; color: #4f46e5; font-weight: bold; }
+  main { flex: 1; padding: 30px; overflow-y: auto; }
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+  .btn { padding: 8px 16px; border-radius: 8px; text-decoration: none; border: 1px solid #ddd; color: #333; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+</style>
+</head>
+<body>
+  <aside>
+    <div class="logo">🎓 Permanência</div>
+    <div class="menu">
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="alunos.html">Alunos</a>
+      <a href="alertas.html">Alertas <span style="float:right; background:#fee2e2; color:#dc2626; padding:2px 6px; border-radius:10px; font-size:10px;">5</span></a>
+      <a href="adicionar-aluno.html">Cadastro</a>
+      <a href="landing-page.html">Landing Page</a>
+    </div>
+  </aside>
+  <main>
+    <a href="alunos.html" style="color: #666; text-decoration: none; font-size: 14px;">← Voltar para alunos</a>
+    <div class="header" style="margin-top: 20px;">
+      <div>
+        <h1 style="margin: 0;">Maria Souza <span style="font-size:12px; background:#fef3c7; color:#d97706; padding:4px 8px; border-radius:4px; vertical-align: middle;">Suspeita de evasão</span></h1>
+        <p style="color: #666; font-size: 14px; margin-top: 5px;">8º ano A • Matrícula 2025-0842</p>
+      </div>
+      <div>
+        <a href="editar-aluno.html" class="btn">Editar aluno</a>
+      </div>
+    </div>
+    <div class="grid">
+      <div>
+        <div class="card">
+          <h3>Faltas ao longo do tempo</h3>
+          <p>Total de 29 faltas no ano letivo</p>
+          <div style="height:100px; background:#f3f4f6; text-align:center; padding-top:40px;">[Gráfico de Barras]</div>
+        </div>
+        <div class="card">
+          <h3>Notas por disciplina <a href="editar-aluno.html" style="font-size:12px; color:#4f46e5;">Editar</a></h3>
+          <p>Matemática: 4,8 | Português: 7,2 | Ciências: 6,5</p>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="background:#4f46e5; color:white;">
+          <strong>Resumir com IA</strong><br><span style="font-size:12px;">Gere uma análise do histórico →</span>
+        </div>
+        <div class="card">
+          <h3>Histórico de alertas</h3>
+          <ul style="padding-left: 20px; font-size:14px; color:#555;">
+            <li>Passou para Suspeita (12 set)</li>
+            <li>Queda no desempenho (02 set)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
