@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Alerta - Maria Souza</title>
+<title>Detalhe do Alerta</title>
 <style>
   body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; background: #f9fafb; color: #333; }
   aside { width: 220px; background: white; border-right: 1px solid #eee; padding: 20px 0; }
@@ -12,15 +12,12 @@
   main { flex: 1; padding: 30px; overflow-y: auto; }
   .btn { padding: 8px 16px; border-radius: 8px; text-decoration: none; border: 1px solid #ddd; color: #333; font-size: 14px; margin-left: 10px; }
   .btn-primary { background: #4f46e5; color: white; border: none; }
-  .alert-banner { background: #fffbeb; border: 1px solid #fef08a; padding: 20px; border-radius: 12px; margin: 20px 0; display: flex; gap: 15px; }
-  .grid-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px; }
+  .grid-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
   .stat-card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #eee; }
   .stat-card h4 { margin: 0 0 10px; font-size: 12px; color: #666; }
   .stat-card .val { font-size: 24px; font-weight: bold; margin: 0; }
   .layout-main { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
   .card { background: white; padding: 25px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; }
-  
-  /* Estilos para as barras de indicadores */
   .indicador-item { margin-bottom: 20px; }
   .indicador-header { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
   .indicador-header strong { color: #333; }
@@ -43,7 +40,7 @@
   <main>
     <a href="alertas.html" style="color: #666; text-decoration: none; font-size: 14px;">← Voltar para alertas</a>
     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
-      <h1 style="margin:0;">Maria Souza <span style="font-size:12px; background:#fef3c7; color:#d97706; padding:4px 8px; border-radius:4px; vertical-align:middle;">Suspeita de evasão</span></h1>
+      <h1 style="margin:0;">Carregando...</h1>
       <div>
         <a href="perfil-aluno.html" class="btn">Ver perfil completo</a>
         <a href="editar-aluno.html" class="btn">Editar aluno</a>
@@ -51,19 +48,10 @@
       </div>
     </div>
 
-    <div class="alert-banner">
-      <div style="font-size:24px;">⚠️</div>
-      <div>
-        <div style="font-size:10px; font-weight:bold; color:#d97706;">POR QUE ESTE ALERTA FOI GERADO</div>
-        <div style="font-weight:bold; font-size:16px; margin:5px 0;">3 faltas na semana + queda em Matemática</div>
-        <div style="font-size:12px; color:#666;">Alerta aberto há 2 dias - atualizado hoje às 08:15</div>
-      </div>
-    </div>
-
     <div class="grid-stats">
-      <div class="stat-card"><h4>Faltas no período</h4><p class="val">8</p><span style="font-size:12px;color:#d97706;font-weight:bold;">Limite de atenção: 6</span></div>
-      <div class="stat-card"><h4>Frequência</h4><p class="val">84%</p><span style="font-size:12px;color:#10b981;font-weight:bold;">Mínimo recomendado: 75%</span></div>
-      <div class="stat-card"><h4>Média geral</h4><p class="val">6,2</p><span style="font-size:12px;color:#ef4444;font-weight:bold;">↓ 0,9 vs. bimestre anterior</span></div>
+      <div class="stat-card"><h4>Faltas no período</h4><p class="val">-</p><span style="font-size:12px;color:#d97706;font-weight:bold;">Limite de atenção: 6</span></div>
+      <div class="stat-card"><h4>Frequência</h4><p class="val">-</p><span style="font-size:12px;color:#10b981;font-weight:bold;">Mínimo recomendado: 75%</span></div>
+      <div class="stat-card"><h4>Média geral</h4><p class="val">-</p><span style="font-size:12px;color:#666;font-weight:bold;">Meta escolar: 7,0</span></div>
     </div>
 
     <div class="layout-main">
@@ -72,29 +60,25 @@
           <h3 style="margin: 0 0 5px; font-size: 16px;">Indicadores e limites</h3>
           <p style="font-size:13px; color:#666; margin-bottom: 25px;">Como o aluno está em relação aos critérios de alerta.</p>
           
-          <!-- Barras mockadas -->
           <div class="indicador-item">
-            <div class="indicador-header"><strong>Faltas</strong> <span>8 de 12 (limite de risco)</span></div>
-            <div class="bar-bg"><div class="bar-fill" style="width: 66%; background: #f59e0b;"></div></div>
+            <div class="indicador-header"><strong>Faltas</strong> <span>-</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width: 0%; background: #f59e0b;"></div></div>
           </div>
           
           <div class="indicador-item">
-            <div class="indicador-header"><strong>Frequência</strong> <span>84% (mínimo 75%)</span></div>
-            <div class="bar-bg"><div class="bar-fill" style="width: 84%; background: #10b981;"></div></div>
+            <div class="indicador-header"><strong>Frequência</strong> <span>-</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width: 0%; background: #10b981;"></div></div>
           </div>
           
           <div class="indicador-item" style="margin-bottom: 10px;">
-            <div class="indicador-header"><strong>Média geral</strong> <span>6,2 de 10 (meta 7,0)</span></div>
-            <div class="bar-bg"><div class="bar-fill" style="width: 62%; background: #ef4444;"></div></div>
+            <div class="indicador-header"><strong>Média geral</strong> <span>-</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width: 0%; background: #ef4444;"></div></div>
           </div>
         </div>
         
         <div class="card">
           <h3 style="margin: 0 0 15px; font-size: 16px;">Linha do tempo do alerta</h3>
-          <ul style="font-size:14px; color:#555; line-height: 1.6; padding-left: 20px;">
-            <li><strong>Alerta de suspeita aberto</strong> (Há 2 dias)<br><span style="font-size:13px; color:#888;">3 faltas na semana e queda em Matemática.</span></li>
-            <li style="margin-top: 10px;">Queda no desempenho (Há 2 semanas)<br><span style="font-size:13px; color:#888;">Média bimestral caiu de 7,1 para 6,2.</span></li>
-          </ul>
+          <ul id="lista-alertas" style="font-size:14px; color:#555; line-height: 1.6; padding-left: 20px;"></ul>
         </div>
       </div>
       <div>
@@ -102,9 +86,9 @@
           <h3 style="margin: 0 0 15px; font-size: 16px;">Ações recomendadas</h3>
           <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Sugestões com base nos indicadores.</p>
           <ul style="font-size:14px; list-style-type:none; padding:0;">
-            <li style="margin-bottom:15px; display:flex; gap:10px;"><input type="radio" style="margin:0;"> Conversar com o responsável</li>
-            <li style="margin-bottom:15px; display:flex; gap:10px;"><input type="radio" style="margin:0;"> Encaminhar à orientação educacional</li>
-            <li style="margin-bottom:20px; display:flex; gap:10px;"><input type="radio" style="margin:0;"> Acompanhar a frequência semanalmente</li>
+            <li style="margin-bottom:15px; display:flex; gap:10px;"><input type="radio" name="acao" style="margin:0;"> Conversar com o responsável</li>
+            <li style="margin-bottom:15px; display:flex; gap:10px;"><input type="radio" name="acao" style="margin:0;"> Encaminhar à orientação educacional</li>
+            <li style="margin-bottom:20px; display:flex; gap:10px;"><input type="radio" name="acao" style="margin:0;"> Acompanhar a frequência semanalmente</li>
           </ul>
           <button style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ddd; background: white; font-weight: bold; cursor: pointer;">Agendar conversa</button>
         </div>
@@ -112,35 +96,25 @@
     </div>
   </main>
   <script>
-  const params = new URLSearchParams(window.location.search);
-  const alunoId = params.get('id') || 1;
+    const params = new URLSearchParams(window.location.search);
+    const alunoId = params.get('id') || 1;
 
-  async function carregarDetalheAlerta() {
-    const res = await fetch(`/api/alunos/${alunoId}`);
-    const { aluno, alertas } = await res.json();
+    async function carregarDetalheAlerta() {
+      const res = await fetch(`/api/alunos/${alunoId}`);
+      const { aluno, alertas } = await res.json();
 
-    // Cabeçalho e links
-    const statusLabel = aluno.status_atual === 'RISCO' ? 'Risco de evasão' : (aluno.status_atual === 'SUSPEITA' ? 'Suspeita de evasão' : 'Regular');
-    document.querySelector('h1').innerHTML = `${aluno.nome_completo} <span style="font-size:12px; background:#fef3c7; color:#d97706; padding:4px 8px; border-radius:4px; vertical-align:middle;">${statusLabel}</span>`;
-    document.querySelector('a[href="perfil-aluno.html"]').href = `perfil-aluno.html?id=${aluno.id}`;
-    document.querySelector('a[href="editar-aluno.html"]').href = `editar-aluno.html?id=${aluno.id}`;
+      const statusLabel = aluno.status_atual === 'RISCO' ? 'Risco de evasão' : (aluno.status_atual === 'SUSPEITA' ? 'Suspeita de evasão' : 'Regular');
+      document.querySelector('h1').innerHTML = `${aluno.nome_completo} <span style="font-size:12px; background:#fef3c7; color:#d97706; padding:4px 8px; border-radius:4px; vertical-align:middle;">${statusLabel}</span>`;
+      document.querySelector('a[href="perfil-aluno.html"]').href = `perfil-aluno.html?id=${aluno.id}`;
+      document.querySelector('a[href="editar-aluno.html"]').href = `editar-aluno.html?id=${aluno.id}`;
 
-    // Banner de motivo
-    const ultimoAlerta = alertas[0];
-    if (ultimoAlerta) {
-      document.querySelector('.alert-banner div:nth-child(2) div:nth-child(2)').textContent = ultimoAlerta.motivo;
-    }
+      const vals = document.querySelectorAll('.grid-stats .val');
+      vals[0].textContent = aluno.faltas_periodo;
+      vals[1].textContent = `${Math.round(aluno.frequencia_percentual)}%`;
+      vals[2].textContent = Number(aluno.media_geral).toFixed(1).replace('.', ',');
 
-    // Cards de métricas
-    const vals = document.querySelectorAll('.grid-stats .val');
-    vals[0].textContent = aluno.faltas_periodo;
-    vals[1].textContent = `${Math.round(aluno.frequencia_percentual)}%`;
-    vals[2].textContent = Number(aluno.media_geral).toFixed(1).replace('.', ',');
-
-    // Barras de indicadores
-    const bars = document.querySelectorAll('.bar-fill');
-    const headers = document.querySelectorAll('.indicador-header span');
-    if (bars.length >= 3) {
+      const bars = document.querySelectorAll('.bar-fill');
+      const headers = document.querySelectorAll('.indicador-header span');
       bars[0].style.width = `${Math.min(100, (aluno.faltas_periodo / 12) * 100)}%`;
       headers[0].textContent = `${aluno.faltas_periodo} de 12 (limite de risco)`;
 
@@ -149,43 +123,42 @@
 
       bars[2].style.width = `${Number(aluno.media_geral) * 10}%`;
       headers[2].textContent = `${Number(aluno.media_geral).toFixed(1).replace('.', ',')} de 10 (meta 7,0)`;
+
+      const ul = document.getElementById('lista-alertas');
+      if (alertas.length > 0) {
+        ul.innerHTML = alertas.map(al => `
+          <li style="margin-bottom: 10px;">
+            <strong>${al.titulo}</strong> (${new Date(al.criado_em).toLocaleDateString('pt-BR')})<br>
+            <span style="font-size:13px; color:#888;">${al.motivo}</span>
+          </li>
+        `).join('');
+      } else {
+        ul.innerHTML = '<li style="color:#888;">Nenhum alerta registrado para este aluno.</li>';
+      }
     }
 
-    // Linha do tempo
-    const ul = document.querySelector('.layout-main > div:first-child ul');
-    if (ul && alertas.length > 0) {
-      ul.innerHTML = alertas.map(al => `
-        <li style="margin-bottom: 10px;">
-          <strong>${al.titulo}</strong> (${new Date(al.criado_em).toLocaleDateString('pt-BR')})<br>
-          <span style="font-size:13px; color:#888;">${al.motivo}</span>
-        </li>
-      `).join('');
+    async function salvarIntervencao(e) {
+      e.preventDefault();
+      const selecionado = document.querySelector('input[type="radio"]:checked');
+      const tipoAcao = selecionado ? selecionado.parentElement.textContent.trim() : 'Intervenção pedagógica';
+      const descricao = prompt(`Descreva a ação (${tipoAcao}):`);
+      if (!descricao) return;
+
+      const gestor = JSON.parse(localStorage.getItem('gestor') || '{"id":1}');
+      const res = await fetch(`/api/alunos/${alunoId}/intervencoes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tipo_acao: tipoAcao, descricao, gestor_id: gestor.id })
+      });
+
+      if (res.ok) alert('Intervenção registrada no banco de dados!');
+      else alert('Erro ao registrar intervenção.');
     }
-  }
 
-  // Registrar intervenção
-  async function salvarIntervencao(e) {
-    e.preventDefault();
-    const selecionado = document.querySelector('input[type="radio"]:checked');
-    const tipoAcao = selecionado ? selecionado.parentElement.textContent.trim() : 'Intervenção pedagógica';
-    const descricao = prompt(`Descreva a ação (${tipoAcao}):`);
-    if (!descricao) return;
+    document.querySelector('.btn-primary').addEventListener('click', salvarIntervencao);
+    document.querySelector('.layout-main button')?.addEventListener('click', salvarIntervencao);
 
-    const gestor = JSON.parse(localStorage.getItem('gestor') || '{"id":1}');
-    const res = await fetch(`/api/alunos/${alunoId}/intervencoes`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tipo_acao: tipoAcao, descricao, gestor_id: gestor.id })
-    });
-
-    if (res.ok) alert('Intervenção registrada no banco de dados!');
-    else alert('Erro ao registrar intervenção.');
-  }
-
-  document.querySelector('.btn-primary').addEventListener('click', salvarIntervencao);
-  document.querySelector('.layout-main button')?.addEventListener('click', salvarIntervencao);
-
-  carregarDetalheAlerta();
-</script>
+    carregarDetalheAlerta();
+  </script>
 </body>
 </html>

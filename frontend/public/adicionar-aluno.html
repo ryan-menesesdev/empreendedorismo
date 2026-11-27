@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Adicionar Aluno</title>
 <style>
-  /* Reutilizando estilos de editar-aluno */
   body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; background: #f9fafb; color: #333; }
   aside { width: 220px; background: white; border-right: 1px solid #eee; padding: 20px 0; }
   .logo { padding: 0 20px 20px; font-weight: bold; }
@@ -14,7 +13,7 @@
   .card { background: white; padding: 25px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; }
   .form-group { margin-bottom: 15px; display: inline-block; width: 48%; }
   label { display: block; font-size: 12px; font-weight: bold; color: #666; margin-bottom: 5px; }
-  input, select { width: 90%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+  input, select { width: 90%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: white; }
   .footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
   .btn { padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; border: 1px solid #ddd; cursor: pointer; }
   .btn-primary { background: #4f46e5; color: white; border: none; }
@@ -37,15 +36,27 @@
     
     <div class="card">
       <h3 style="margin-top:0; font-size:16px;">01 Dados do aluno</h3>
-      <div class="form-group" style="width: 98%;"><label>Nome completo</label><input type="text" placeholder="Ex.: Mariana Silva Pereira" style="width:95%"></div>
-      <div class="form-group"><label>Data de nascimento</label><input type="date"></div>
-      <div class="form-group"><label>Matrícula</label><input type="text" placeholder="2025-0000"></div>
+      <div class="form-group" style="width: 98%;"><label>Nome completo</label><input id="nome" type="text" placeholder="Ex.: Mariana Silva Pereira" style="width:95%"></div>
+      <div class="form-group"><label>Data de nascimento</label><input id="nascimento" type="date"></div>
+      <div class="form-group"><label>Matrícula</label><input id="matricula" type="text" placeholder="2025-0000"></div>
+      <div class="form-group">
+        <label>Turma</label>
+        <select id="turma">
+          <option value="">Selecione a turma</option>
+          <option value="7º A">7º A</option>
+          <option value="7º B">7º B</option>
+          <option value="8º A">8º A</option>
+          <option value="8º B">8º B</option>
+          <option value="9º A">9º A</option>
+          <option value="9º B">9º B</option>
+        </select>
+      </div>
     </div>
     
     <div class="card">
       <h3 style="margin-top:0; font-size:16px;">02 Registro inicial</h3>
-      <div class="form-group"><label>Faltas no período</label><input type="number" placeholder="0"></div>
-      <div class="form-group"><label>Média geral</label><input type="text" placeholder="0,0"></div>
+      <div class="form-group"><label>Faltas no período</label><input id="faltas" type="number" placeholder="0"></div>
+      <div class="form-group"><label>Média geral</label><input id="media" type="text" placeholder="0,0"></div>
     </div>
 
     <div class="footer">
@@ -54,35 +65,40 @@
     </div>
   </main>
   <script>
-  const inputs = document.querySelectorAll('main input');
-  // Ordem atual dos inputs na tela: [0] Nome, [1] Data nasc, [2] Matrícula, [3] Faltas, [4] Média
+    document.querySelector('.btn-primary').addEventListener('click', async (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value.trim();
+      const nascimento = document.getElementById('nascimento').value;
+      const matricula = document.getElementById('matricula').value.trim();
+      const turma = document.getElementById('turma').value;
+      const faltas = document.getElementById('faltas').value;
+      const media = document.getElementById('media').value;
 
-  document.querySelector('.btn-primary').addEventListener('click', async (e) => {
-    e.preventDefault();
-    if (!inputs[0].value || !inputs[2].value) {
-      return alert('Preencha pelo menos o Nome completo e a Matrícula.');
-    }
+      if (!nome || !matricula || !turma) {
+        return alert('Preencha Nome completo, Matrícula e Turma.');
+      }
 
-    const res = await fetch('/api/alunos', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nome_completo: inputs[0].value,
-        data_nascimento: inputs[1].value,
-        matricula: inputs[2].value,
-        faltas_periodo: inputs[3].value,
-        media_geral: inputs[4].value
-      })
+      const res = await fetch('/api/alunos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome_completo: nome,
+          data_nascimento: nascimento,
+          matricula: matricula,
+          turma: turma,
+          faltas_periodo: faltas,
+          media_geral: media
+        })
+      });
+
+      if (res.ok) {
+        alert('Aluno cadastrado com sucesso!');
+        window.location.href = 'alunos.html';
+      } else {
+        const err = await res.json();
+        alert(err.error || 'Erro ao cadastrar aluno.');
+      }
     });
-
-    if (res.ok) {
-      alert('Aluno cadastrado com sucesso!');
-      window.location.href = 'alunos.html';
-    } else {
-      const err = await res.json();
-      alert(err.error || 'Erro ao cadastrar aluno.');
-    }
-  });
-</script>
+  </script>
 </body>
 </html>

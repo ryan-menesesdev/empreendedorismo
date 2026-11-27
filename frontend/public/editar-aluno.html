@@ -23,8 +23,8 @@
   <aside>
     <div class="logo">🎓 Permanência</div>
     <div class="menu">
-      <a href="dashboard.html" class="active">Dashboard</a>
-      <a href="alunos.html">Alunos</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="alunos.html" class="active">Alunos</a>
       <a href="alertas.html">Alertas <span style="float:right; background:#fee2e2; color:#dc2626; padding:2px 6px; border-radius:10px; font-size:10px;">5</span></a>
       <a href="adicionar-aluno.html">Cadastro</a>
       <a href="landing-page.html">Landing Page</a>
@@ -36,15 +36,24 @@
     
     <div class="card">
       <h3 style="margin-top:0; font-size:16px;">01 Dados do aluno</h3>
-      <div class="form-group"><label>Nome completo</label><input type="text" value="Maria Souza"></div>
-      <div class="form-group"><label>Matrícula</label><input type="text" value="2025-0842" disabled></div>
-      <div class="form-group"><label>Turma</label><input type="text" value="8º A"></div>
+      <div class="form-group"><label>Nome completo</label><input id="nome" type="text"></div>
+      <div class="form-group"><label>Matrícula</label><input id="matricula" type="text" disabled></div>
+      <div class="form-group"><label>Turma</label><input id="turma" type="text"></div>
     </div>
     
     <div class="card">
       <h3 style="margin-top:0; font-size:16px;">02 Registro atual</h3>
-      <div class="form-group"><label>Faltas no período</label><input type="number" value="8"></div>
-      <div class="form-group"><label>Média geral</label><input type="text" value="6,2"></div>
+      <div class="form-group"><label>Faltas no período</label><input id="faltas" type="number"></div>
+      <div class="form-group"><label>Média geral</label><input id="media" type="text"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0; font-size:16px;">03 Notas por disciplina</h3>
+      <div class="form-group"><label>Português</label><input class="nota-input" data-disciplina="Português" type="text" placeholder="0,0"></div>
+      <div class="form-group"><label>Matemática</label><input class="nota-input" data-disciplina="Matemática" type="text" placeholder="0,0"></div>
+      <div class="form-group"><label>Ciências</label><input class="nota-input" data-disciplina="Ciências" type="text" placeholder="0,0"></div>
+      <div class="form-group"><label>História</label><input class="nota-input" data-disciplina="História" type="text" placeholder="0,0"></div>
+      <div class="form-group"><label>Geografia</label><input class="nota-input" data-disciplina="Geografia" type="text" placeholder="0,0"></div>
     </div>
 
     <div class="footer">
@@ -53,43 +62,63 @@
     </div>
   </main>
   <script>
-  const params = new URLSearchParams(window.location.search);
-  const alunoId = params.get('id') || 1;
-  const inputs = document.querySelectorAll('main input');
-  // Ordem atual dos inputs na tela: [0] Nome, [1] Matrícula, [2] Turma, [3] Faltas, [4] Média
+    const params = new URLSearchParams(window.location.search);
+    const alunoId = params.get('id') || 1;
 
-  async function carregarDados() {
-    const res = await fetch(`/api/alunos/${alunoId}`);
-    const { aluno } = await res.json();
-    inputs[0].value = aluno.nome_completo;
-    inputs[1].value = aluno.matricula;
-    inputs[2].value = aluno.turma;
-    inputs[3].value = aluno.faltas_periodo;
-    inputs[4].value = Number(aluno.media_geral).toFixed(1).replace('.', ',');
-    document.querySelectorAll('a[href="perfil-aluno.html"]').forEach(a => a.href = `perfil-aluno.html?id=${alunoId}`);
-  }
+    async function carregarDados() {
+      const res = await fetch(`/api/alunos/${alunoId}`);
+      const { aluno, notas } = await res.json();
 
-  document.querySelector('.btn-primary').addEventListener('click', async (e) => {
-    e.preventDefault();
-    const res = await fetch(`/api/alunos/${alunoId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nome_completo: inputs[0].value,
-        turma: inputs[2].value,
-        faltas_periodo: inputs[3].value,
-        media_geral: inputs[4].value
-      })
-    });
-    if (res.ok) {
-      alert('Aluno atualizado com sucesso!');
-      window.location.href = `perfil-aluno.html?id=${alunoId}`;
-    } else {
-      alert('Erro ao salvar alterações.');
+      document.getElementById('nome').value = aluno.nome_completo;
+      document.getElementById('matricula').value = aluno.matricula;
+      document.getElementById('turma').value = aluno.turma;
+      document.getElementById('faltas').value = aluno.faltas_periodo;
+      document.getElementById('media').value = Number(aluno.media_geral).toFixed(1).replace('.', ',');
+
+      document.querySelectorAll('.nota-input').forEach(input => {
+        const disc = input.dataset.disciplina;
+        const encontrada = notas.find(n => n.disciplina.toLowerCase() === disc.toLowerCase());
+        if (encontrada) {
+          input.value = Number(encontrada.nota).toFixed(1).replace('.', ',');
+        }
+      });
+
+      document.querySelectorAll('a[href="perfil-aluno.html"]').forEach(a => a.href = `perfil-aluno.html?id=${alunoId}`);
     }
-  });
 
-  carregarDados();
-</script>
+    document.querySelector('.btn-primary').addEventListener('click', async (e) => {
+      e.preventDefault();
+      const notasPayload = [];
+      document.querySelectorAll('.nota-input').forEach(input => {
+        if (input.value.trim() !== '') {
+          notasPayload.push({
+            disciplina: input.dataset.disciplina,
+            nota: input.value.trim()
+          });
+        }
+      });
+
+      const res = await fetch(`/api/alunos/${alunoId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome_completo: document.getElementById('nome').value,
+          turma: document.getElementById('turma').value,
+          faltas_periodo: document.getElementById('faltas').value,
+          media_geral: document.getElementById('media').value,
+          notas: notasPayload
+        })
+      });
+
+      if (res.ok) {
+        alert('Aluno atualizado com sucesso!');
+        window.location.href = `perfil-aluno.html?id=${alunoId}`;
+      } else {
+        alert('Erro ao salvar alterações.');
+      }
+    });
+
+    carregarDados();
+  </script>
 </body>
 </html>

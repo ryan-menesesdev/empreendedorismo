@@ -97,7 +97,6 @@ router.get('/alunos/:id', async (req: Request, res: Response) => {
     }
 });
 
-// 5. ADICIONAR ALUNO
 router.post('/alunos', async (req: Request, res: Response) => {
     const {
         nome_completo, data_nascimento, matricula, turma,
@@ -119,7 +118,7 @@ router.post('/alunos', async (req: Request, res: Response) => {
                 dificuldades_observadas, status_atual
             ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`,
             [
-                matricula, nome_completo, data_nascimento || null, turma || '8º A',
+                matricula, nome_completo, data_nascimento || null, turma,
                 responsavel_nome || null, responsavel_telefone || null,
                 faltasNum, frequencia, mediaNum,
                 dificuldades_observadas || null, status
@@ -127,6 +126,15 @@ router.post('/alunos', async (req: Request, res: Response) => {
         );
 
         const novoAluno = result.rows[0];
+        const agora = new Date();
+
+        // Registra as faltas iniciais no mês atual para o gráfico de faltas
+        await pool.query(
+            `INSERT INTO faltas_mensais (aluno_id, ano, mes, quantidade)
+             VALUES ($1, $2, $3, $4)
+             ON CONFLICT (aluno_id, ano, mes) DO UPDATE SET quantidade = EXCLUDED.quantidade`,
+            [novoAluno.id, agora.getFullYear(), agora.getMonth() + 1, faltasNum]
+        );
 
         if (status !== 'REGULAR') {
             await pool.query(
@@ -147,13 +155,24 @@ router.post('/alunos', async (req: Request, res: Response) => {
     }
 });
 
-// 6. EDITAR ALUNO
+// 6. EDITAR ALUNO (substitua a rota existente)
 router.put('/alunos/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { nome_completo, turma, faltas_periodo, media_geral, dificuldades_observadas } = req.body;
+    const { nome_completo, turma, faltas_periodo, media_geral, dificuldades_observadas, notas } = req.body;
 
     const faltasNum = Number(faltas_periodo) || 0;
-    const mediaNum = Number(String(media_geral).replace(',', '.')) || 0;
+    let mediaNum = Number(String(media_geral).replace(',', '.')) || 0;
+
+    // Se vieram notas por disciplina, recalcula a média automaticamente
+    if (Array.isArray(notas) && notas.length > 0) {
+        const valoresValidos = notas
+            .map((n: { nota: string | number }) => Number(String(n.nota).replace(',', '.')))
+            .filter((v: number) => !isNaN(v));
+        if (valoresValidos.length > 0) {
+            mediaNum = Number((valoresValidos.reduce((a: number, b: number) => a + b, 0) / valoresValidos.length).toFixed(2));
+        }
+    }
+
     const status = calcularStatus(faltasNum, mediaNum);
     const frequencia = Math.max(0, 100 - faltasNum * 2);
 
@@ -167,6 +186,31 @@ router.put('/alunos/:id', async (req: Request, res: Response) => {
              WHERE id = $8 RETURNING *`,
             [nome_completo, turma, faltasNum, frequencia, mediaNum, dificuldades_observadas || null, status, id]
         );
+
+        // Atualiza as faltas do mês atual no gráfico
+        const agora = new Date();
+        await pool.query(
+            `INSERT INTO faltas_mensais (aluno_id, ano, mes, quantidade)
+             VALUES ($1, $2, $3, $4)
+             ON CONFLICT (aluno_id, ano, mes) DO UPDATE SET quantidade = EXCLUDED.quantidade`,
+            [id, agora.getFullYear(), agora.getMonth() + 1, faltasNum]
+        );
+
+        // Atualiza as notas por disciplina
+        if (Array.isArray(notas)) {
+            await pool.query('DELETE FROM notas_disciplinas WHERE aluno_id = $1', [id]);
+            for (const item of notas) {
+                const valorNota = Number(String(item.nota).replace(',', '.'));
+                if (!isNaN(valorNota)) {
+                    await pool.query(
+                        `INSERT INTO notas_disciplinas (aluno_id, bimestre, disciplina, nota)
+                         VALUES ($1, '3º bimestre', $2, $3)`,
+                        [id, item.disciplina, valorNota]
+                    );
+                }
+            }
+        }
+
         res.json(result.rows[0]);
     } catch (err) {
         console.error(err);
