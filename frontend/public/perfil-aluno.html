@@ -130,5 +130,63 @@
       </div>
     </div>
   </main>
+  <script>
+  const meses = ['', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+  const params = new URLSearchParams(window.location.search);
+  const alunoId = params.get('id') || 1;
+
+  async function carregarPerfil() {
+    const res = await fetch(`/api/alunos/${alunoId}`);
+    const { aluno, notas, faltas, alertas } = await res.json();
+
+    // Cabeçalho
+    const statusLabel = aluno.status_atual === 'RISCO' ? 'Risco de evasão' : (aluno.status_atual === 'SUSPEITA' ? 'Suspeita de evasão' : 'Regular');
+    document.querySelector('h1').innerHTML = `${aluno.nome_completo} <span style="font-size:12px; background:#fef3c7; color:#d97706; padding:4px 8px; border-radius:4px; vertical-align:middle; font-weight:normal;">${statusLabel}</span>`;
+    document.querySelector('.header p').textContent = `${aluno.turma} • Matrícula ${aluno.matricula}`;
+    document.querySelectorAll('a[href="editar-aluno.html"]').forEach(a => a.href = `editar-aluno.html?id=${aluno.id}`);
+
+    // Gráfico de Faltas
+    const barChart = document.querySelector('.bar-chart');
+    if (barChart && faltas.length > 0) {
+      const totalFaltas = faltas.reduce((acc, f) => acc + f.quantidade, 0);
+      document.querySelector('.card .sub').textContent = `Total de ${totalFaltas} faltas no ano letivo`;
+      const maxFaltas = Math.max(...faltas.map(f => f.quantidade), 1);
+      barChart.innerHTML = faltas.map(f => `
+        <div class="bar-col">
+          <span class="bar-val">${f.quantidade}</span>
+          <div class="bar" style="height: ${(f.quantidade / maxFaltas) * 100}px;"></div>
+          <span class="bar-label">${meses[f.mes]}</span>
+        </div>
+      `).join('');
+    }
+
+    // Notas por disciplina
+    const notasContainer = document.querySelector('.nota-row')?.parentElement;
+    if (notasContainer && notas.length > 0) {
+      notasContainer.innerHTML = notas.map(n => {
+        const vermelha = Number(n.nota) < 6;
+        return `
+          <div class="nota-row">
+            <div class="nota-nome">${n.disciplina}</div>
+            <div class="nota-bg"><div class="nota-fill ${vermelha ? 'nota-vermelha' : 'nota-azul'}" style="width: ${Number(n.nota) * 10}%;"></div></div>
+            <div class="nota-val" style="${vermelha ? 'color:#ef4444;' : ''}">${Number(n.nota).toFixed(1).replace('.', ',')}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Histórico de alertas
+    const ulAlertas = document.querySelector('.grid > div:last-child ul');
+    if (ulAlertas && alertas.length > 0) {
+      ulAlertas.innerHTML = alertas.map(al => `
+        <li style="margin-bottom: 15px;">
+          <strong>${al.titulo}</strong><br>
+          <span style="font-size:12px; color:#888;">${new Date(al.criado_em).toLocaleDateString('pt-BR')}<br>${al.motivo}</span>
+        </li>
+      `).join('');
+    }
+  }
+  carregarPerfil();
+</script>
 </body>
 </html>

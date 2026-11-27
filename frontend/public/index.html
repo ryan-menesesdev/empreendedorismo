@@ -41,5 +41,26 @@
     <h2>"Cada sinal percebido a tempo pode mudar uma trajetória."</h2>
     <p>Dados que ajudam a escola a cuidar de cada aluno.</p>
   </div>
+  <script>
+  const btnEntrar = document.querySelector('.btn');
+  const emailInput = document.querySelector('input[type="email"]');
+  const senhaInput = document.querySelector('input[type="password"]');
+
+  btnEntrar.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: emailInput.value, password: senhaInput.value })
+    });
+    const data = await res.json();
+    if (data.success) {
+      localStorage.setItem('gestor', JSON.stringify(data.user));
+      window.location.href = 'dashboard.html';
+    } else {
+      alert(data.message || 'Credenciais inválidas.');
+    }
+  });
+</script>
 </body>
 </html>

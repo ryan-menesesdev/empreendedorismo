@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import routes from './routes';
+import apiRoutes from './routes/api';
 
 const app = express();
 
@@ -11,6 +12,11 @@ const publicPath = path.join(__dirname, '../../frontend/public');
 
 app.use(express.static(publicPath));
 
+app.get('/', (_req, res) => {
+    res.redirect('/login');
+});
+
+app.use('/api', apiRoutes);
 app.use('/', routes);
 
 export default app;

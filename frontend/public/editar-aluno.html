@@ -52,5 +52,44 @@
       <a href="perfil-aluno.html" class="btn btn-primary">Salvar alterações</a>
     </div>
   </main>
+  <script>
+  const params = new URLSearchParams(window.location.search);
+  const alunoId = params.get('id') || 1;
+  const inputs = document.querySelectorAll('main input');
+  // Ordem atual dos inputs na tela: [0] Nome, [1] Matrícula, [2] Turma, [3] Faltas, [4] Média
+
+  async function carregarDados() {
+    const res = await fetch(`/api/alunos/${alunoId}`);
+    const { aluno } = await res.json();
+    inputs[0].value = aluno.nome_completo;
+    inputs[1].value = aluno.matricula;
+    inputs[2].value = aluno.turma;
+    inputs[3].value = aluno.faltas_periodo;
+    inputs[4].value = Number(aluno.media_geral).toFixed(1).replace('.', ',');
+    document.querySelectorAll('a[href="perfil-aluno.html"]').forEach(a => a.href = `perfil-aluno.html?id=${alunoId}`);
+  }
+
+  document.querySelector('.btn-primary').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const res = await fetch(`/api/alunos/${alunoId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome_completo: inputs[0].value,
+        turma: inputs[2].value,
+        faltas_periodo: inputs[3].value,
+        media_geral: inputs[4].value
+      })
+    });
+    if (res.ok) {
+      alert('Aluno atualizado com sucesso!');
+      window.location.href = `perfil-aluno.html?id=${alunoId}`;
+    } else {
+      alert('Erro ao salvar alterações.');
+    }
+  });
+
+  carregarDados();
+</script>
 </body>
 </html>

@@ -111,5 +111,81 @@
       </div>
     </div>
   </main>
+  <script>
+  const params = new URLSearchParams(window.location.search);
+  const alunoId = params.get('id') || 1;
+
+  async function carregarDetalheAlerta() {
+    const res = await fetch(`/api/alunos/${alunoId}`);
+    const { aluno, alertas } = await res.json();
+
+    // Cabeçalho e links
+    const statusLabel = aluno.status_atual === 'RISCO' ? 'Risco de evasão' : (aluno.status_atual === 'SUSPEITA' ? 'Suspeita de evasão' : 'Regular');
+    document.querySelector('h1').innerHTML = `${aluno.nome_completo} <span style="font-size:12px; background:#fef3c7; color:#d97706; padding:4px 8px; border-radius:4px; vertical-align:middle;">${statusLabel}</span>`;
+    document.querySelector('a[href="perfil-aluno.html"]').href = `perfil-aluno.html?id=${aluno.id}`;
+    document.querySelector('a[href="editar-aluno.html"]').href = `editar-aluno.html?id=${aluno.id}`;
+
+    // Banner de motivo
+    const ultimoAlerta = alertas[0];
+    if (ultimoAlerta) {
+      document.querySelector('.alert-banner div:nth-child(2) div:nth-child(2)').textContent = ultimoAlerta.motivo;
+    }
+
+    // Cards de métricas
+    const vals = document.querySelectorAll('.grid-stats .val');
+    vals[0].textContent = aluno.faltas_periodo;
+    vals[1].textContent = `${Math.round(aluno.frequencia_percentual)}%`;
+    vals[2].textContent = Number(aluno.media_geral).toFixed(1).replace('.', ',');
+
+    // Barras de indicadores
+    const bars = document.querySelectorAll('.bar-fill');
+    const headers = document.querySelectorAll('.indicador-header span');
+    if (bars.length >= 3) {
+      bars[0].style.width = `${Math.min(100, (aluno.faltas_periodo / 12) * 100)}%`;
+      headers[0].textContent = `${aluno.faltas_periodo} de 12 (limite de risco)`;
+
+      bars[1].style.width = `${aluno.frequencia_percentual}%`;
+      headers[1].textContent = `${Math.round(aluno.frequencia_percentual)}% (mínimo 75%)`;
+
+      bars[2].style.width = `${Number(aluno.media_geral) * 10}%`;
+      headers[2].textContent = `${Number(aluno.media_geral).toFixed(1).replace('.', ',')} de 10 (meta 7,0)`;
+    }
+
+    // Linha do tempo
+    const ul = document.querySelector('.layout-main > div:first-child ul');
+    if (ul && alertas.length > 0) {
+      ul.innerHTML = alertas.map(al => `
+        <li style="margin-bottom: 10px;">
+          <strong>${al.titulo}</strong> (${new Date(al.criado_em).toLocaleDateString('pt-BR')})<br>
+          <span style="font-size:13px; color:#888;">${al.motivo}</span>
+        </li>
+      `).join('');
+    }
+  }
+
+  // Registrar intervenção
+  async function salvarIntervencao(e) {
+    e.preventDefault();
+    const selecionado = document.querySelector('input[type="radio"]:checked');
+    const tipoAcao = selecionado ? selecionado.parentElement.textContent.trim() : 'Intervenção pedagógica';
+    const descricao = prompt(`Descreva a ação (${tipoAcao}):`);
+    if (!descricao) return;
+
+    const gestor = JSON.parse(localStorage.getItem('gestor') || '{"id":1}');
+    const res = await fetch(`/api/alunos/${alunoId}/intervencoes`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tipo_acao: tipoAcao, descricao, gestor_id: gestor.id })
+    });
+
+    if (res.ok) alert('Intervenção registrada no banco de dados!');
+    else alert('Erro ao registrar intervenção.');
+  }
+
+  document.querySelector('.btn-primary').addEventListener('click', salvarIntervencao);
+  document.querySelector('.layout-main button')?.addEventListener('click', salvarIntervencao);
+
+  carregarDetalheAlerta();
+</script>
 </body>
 </html>

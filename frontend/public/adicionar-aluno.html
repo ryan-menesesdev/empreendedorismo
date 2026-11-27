@@ -53,5 +53,36 @@
       <a href="alunos.html" class="btn btn-primary">+ Adicionar aluno</a>
     </div>
   </main>
+  <script>
+  const inputs = document.querySelectorAll('main input');
+  // Ordem atual dos inputs na tela: [0] Nome, [1] Data nasc, [2] Matrícula, [3] Faltas, [4] Média
+
+  document.querySelector('.btn-primary').addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (!inputs[0].value || !inputs[2].value) {
+      return alert('Preencha pelo menos o Nome completo e a Matrícula.');
+    }
+
+    const res = await fetch('/api/alunos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome_completo: inputs[0].value,
+        data_nascimento: inputs[1].value,
+        matricula: inputs[2].value,
+        faltas_periodo: inputs[3].value,
+        media_geral: inputs[4].value
+      })
+    });
+
+    if (res.ok) {
+      alert('Aluno cadastrado com sucesso!');
+      window.location.href = 'alunos.html';
+    } else {
+      const err = await res.json();
+      alert(err.error || 'Erro ao cadastrar aluno.');
+    }
+  });
+</script>
 </body>
 </html>

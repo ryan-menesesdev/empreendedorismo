@@ -107,5 +107,45 @@
       </a>
     </div>
   </main>
+  <script>
+  async function carregarDashboard() {
+    const res = await fetch('/api/dashboard');
+    const { stats, atencao } = await res.json();
+
+    const nums = document.querySelectorAll('.stats .num');
+    if (nums.length >= 4) {
+      nums[0].textContent = stats.total;
+      nums[1].textContent = stats.regulares;
+      nums[2].textContent = stats.suspeita;
+      nums[3].textContent = stats.risco;
+    }
+
+    const cards = document.querySelectorAll('main > .card');
+    const listaCard = cards[cards.length - 1];
+    listaCard.querySelectorAll('.list-item').forEach(el => el.remove());
+
+    atencao.forEach(aluno => {
+      const isRisco = aluno.status_atual === 'RISCO';
+      const link = document.createElement('a');
+      link.href = `detalhe-alerta.html?id=${aluno.id}`;
+      link.className = 'list-item';
+      link.innerHTML = `
+        <div>
+          <strong>${aluno.nome_completo}</strong>
+          <span style="font-size:12px; color:#666; display:block;">
+            ${aluno.turma} - ${aluno.dificuldades_observadas || 'Atenção necessária'}
+          </span>
+        </div>
+        <div>
+          <span class="${isRisco ? 'badge-risco' : 'badge-suspeita'}">
+            ${isRisco ? 'Risco de evasão' : 'Suspeita de evasão'}
+          </span>
+        </div>
+      `;
+      listaCard.appendChild(link);
+    });
+  }
+  carregarDashboard();
+</script>
 </body>
 </html>

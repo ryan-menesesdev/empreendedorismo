@@ -58,5 +58,31 @@
       </tbody>
     </table>
   </main>
+  <script>
+  async function carregarAlunos() {
+    const res = await fetch('/api/alunos');
+    const alunos = await res.json();
+    const tbody = document.querySelector('tbody');
+    tbody.innerHTML = '';
+
+    alunos.forEach(a => {
+      const badgeClass = a.status_atual === 'RISCO' ? 'risco' : (a.status_atual === 'SUSPEITA' ? 'suspeita' : 'regular');
+      const badgeText = a.status_atual === 'RISCO' ? 'Risco de evasão' : (a.status_atual === 'SUSPEITA' ? 'Suspeita de evasão' : 'Regular');
+
+      const tr = document.createElement('tr');
+      tr.onclick = () => window.location.href = `perfil-aluno.html?id=${a.id}`;
+      tr.innerHTML = `
+        <td><strong>${a.nome_completo}</strong></td>
+        <td>${a.turma}</td>
+        <td style="${a.faltas_periodo >= 10 ? 'color:red; font-weight:bold;' : ''}">${a.faltas_periodo}</td>
+        <td>${Number(a.media_geral).toFixed(1).replace('.', ',')}</td>
+        <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+        <td><a href="editar-aluno.html?id=${a.id}" onclick="event.stopPropagation()">✏️</a></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+  carregarAlunos();
+</script>
 </body>
 </html>

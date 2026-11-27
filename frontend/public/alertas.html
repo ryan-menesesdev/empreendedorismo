@@ -61,3 +61,40 @@
           <a href="detalhe-alerta.html" class="link-detalhes">Ver detalhes →</a>
         </div>
       </div>
+  </main>
+  <script>
+  async function carregarAlertas() {
+    const res = await fetch('/api/alertas');
+    const alunos = await res.json();
+    const colunas = document.querySelectorAll('.kanban .column');
+
+    const grupos = { REGULAR: [], SUSPEITA: [], RISCO: [] };
+    alunos.forEach(a => grupos[a.status_atual]?.push(a));
+
+    const ordem = ['REGULAR', 'SUSPEITA', 'RISCO'];
+    ordem.forEach((status, idx) => {
+      const col = colunas[idx];
+      const lista = grupos[status];
+      col.querySelector('h2 span:last-child').textContent = lista.length;
+      col.querySelectorAll('.card-alerta').forEach(el => el.remove());
+
+      lista.forEach(a => {
+        const card = document.createElement('div');
+        card.className = 'card-alerta';
+        card.innerHTML = `
+          <h4>${a.nome_completo}</h4>
+          <p>${a.dificuldades_observadas || 'Sem observações registradas'}</p>
+          <div class="stats-row">
+            <span>Faltas<br>${a.faltas_periodo}</span>
+            <span>Média<br>${Number(a.media_geral).toFixed(1).replace('.', ',')}</span>
+          </div>
+          <a href="detalhe-alerta.html?id=${a.id}" class="link-detalhes">Ver detalhes →</a>
+        `;
+        col.appendChild(card);
+      });
+    });
+  }
+  carregarAlertas();
+</script>
+</body>
+</html>
